@@ -1,0 +1,24 @@
+export const TitleColor = "#283039";
+export const TextColor = "#212529";
+export const SecondaryTextColor = "#404D5C";
+export const DarkBg = "#283039";
+export const White = "#fff";
+export const DirtyWhite = "#fafafa";
+export const GreyBlue = "#F0F7FF";
+export const WhiteGray = "#E6EFFB";
+export const Black = "#000";
+export const Primary = "#03A8B7";
+export const ErrorColor = "#F30";
+export const ShadowColor = "#1C283633";
+export const GreyZircon = "#F8FBFF";
+export const BlackSqueeze = "#F4F7FB";
+export const LightGrey = "#DEE0E4";
+export const LightGreyText = "#677586";
+export const LightBlack = "#212529";
+export const Blue = "#016CD8";
+export const ShadowGrey = "#dadcdf";
+export const AccentSecondaryWhite = "#FAFAFA";
+export const Red = "#CA0000E5";
+export const Green = "#2BA700";
+
+export const PrimaryFont = "'Roboto', sans-serif";
