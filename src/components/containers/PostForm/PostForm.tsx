@@ -4,7 +4,7 @@ import { BasicForm } from "../../common/BasicForm/BasicForm";
 import { FormInput } from "../../common/Input/FormInput";
 import { Button } from "../../common/Button/Button";
 import { FormDataContext } from "../../../context/FormDataContext";
-import { IPostFormData } from "src/interfaces/PostFormData.interface";
+import { IPostFormData } from "../../../interfaces/PostFormData.interface";
 
 const PostForm = () => {
   const { onSubmit } = useContext(FormDataContext);

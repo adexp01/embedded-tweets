@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { IPostFormData } from "src/interfaces/PostFormData.interface";
+import { IPostFormData } from "../interfaces/PostFormData.interface";
 
 interface IFormDataContext {
   postData: IPostFormData | null;

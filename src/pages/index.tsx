@@ -1,6 +1,6 @@
-import PostForm from "src/components/containers/PostForm/PostForm";
-import TweetPost from "src/components/layout/TweetPost/TweetPost";
-import { FormDataProvider } from "src/context/FormDataContext";
+import PostForm from "../components/containers/PostForm/PostForm";
+import TweetPost from "../components/layout/TweetPost/TweetPost";
+import { FormDataProvider } from "../context/FormDataContext";
 
 export default function HomePage() {
   return (
