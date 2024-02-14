@@ -4,17 +4,14 @@ import { BasicForm } from "../../common/BasicForm/BasicForm";
 import { FormInput } from "../../common/Input/FormInput";
 import { Button } from "../../common/Button/Button";
 import { FormDataContext } from "../../../context/FormDataContext";
-
-interface IFormData {
-  postUrl: string;
-}
+import { IPostFormData } from "../../../interfaces/PostFormData.interface";
 
 const PostForm = () => {
   const { onSubmit } = useContext(FormDataContext);
 
-  const { register, handleSubmit, reset } = useForm<IFormData>();
+  const { register, handleSubmit, reset } = useForm<IPostFormData>();
 
-  const handleFormSubmit = (data: IFormData) => {
+  const handleFormSubmit = (data: IPostFormData) => {
     onSubmit(data);
     reset();
   };

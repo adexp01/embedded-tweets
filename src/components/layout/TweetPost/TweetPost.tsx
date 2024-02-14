@@ -30,6 +30,7 @@ const TweetPost = () => {
     <div>
       {postData && (
         <TwitterTweetEmbed
+          key={extractTweetIdFromUrl(postData?.postUrl)}
           tweetId={extractTweetIdFromUrl(postData?.postUrl)}
           placeholder={"Loading..."}
         />

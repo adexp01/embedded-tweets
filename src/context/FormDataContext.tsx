@@ -1,12 +1,9 @@
 import React, { createContext, useState } from "react";
-
-interface IFormData {
-  postUrl: string;
-}
+import { IPostFormData } from "../interfaces/PostFormData.interface";
 
 interface IFormDataContext {
-  postData: IFormData | null;
-  onSubmit: (data: IFormData) => void;
+  postData: IPostFormData | null;
+  onSubmit: (data: IPostFormData) => void;
 }
 
 const FormDataContext = createContext<IFormDataContext>({
@@ -15,9 +12,9 @@ const FormDataContext = createContext<IFormDataContext>({
 });
 
 const FormDataProvider = ({ children }: { children: React.ReactNode }) => {
-  const [postData, setPostData] = useState<IFormData | null>(null);
+  const [postData, setPostData] = useState<IPostFormData | null>(null);
 
-  const onSubmit = (data: IFormData) => {
+  const onSubmit = (data: IPostFormData) => {
     setPostData(data);
   };
 
