@@ -5,6 +5,7 @@ import { FormInput } from "../../common/Input/FormInput";
 import { Button } from "../../common/Button/Button";
 import { FormDataContext } from "../../../context/FormDataContext";
 import { IPostFormData } from "../../../interfaces/PostFormData.interface";
+import * as S from "./styled";
 
 const PostForm = () => {
   const { onSubmit } = useContext(FormDataContext);
@@ -33,10 +34,9 @@ const PostForm = () => {
     onSubmit(data);
     reset();
   };
-  console.log(errors);
 
   return (
-    <div>
+    <S.FormWrapper>
       <BasicForm onSubmit={handleSubmit(handleFormSubmit)}>
         <FormInput
           placeholder="Provide Post URL"
@@ -48,7 +48,7 @@ const PostForm = () => {
         <Button type="submit">Submit</Button>
       </BasicForm>
       {errors.postUrl && <p style={{ color: "tomato" }}>Invalid URL</p>}
-    </div>
+    </S.FormWrapper>
   );
 };
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TwitterTweetEmbed } from "react-twitter-embed";
 import { FormDataContext } from "../../../context/FormDataContext";
 import { extractTweetIdFromUrl } from "../../../helpers/common";
@@ -19,19 +19,38 @@ interface IEmbedTweetRes {
 
 const TweetPost = () => {
   const { postData } = useContext(FormDataContext);
+  const [analizeRes, setAnalizeRes] = useState(null);
 
+  //move to a service folder
   const getTweetData = async (): Promise<IEmbedTweetRes> => {
-    const res = await axios.post(`/api/twitter`, {
+    const { data } = await axios.post(`/api/twitter`, {
       url: postData?.postUrl,
     });
 
-    console.log(res.data);
-    return res.data;
+    return data;
+  };
+
+  const analizeTweet = async (tweetBody: IEmbedTweetRes) => {
+    const { data } = await axios.post(`/api/ai`, {
+      markup: tweetBody.html,
+    });
+
+    return data;
   };
 
   useEffect(() => {
+    setAnalizeRes(null);
+
+    const getTweetAndAnalize = async () => {
+      const tweetData = await getTweetData();
+      if (tweetData) {
+        const { message } = await analizeTweet(tweetData);
+        setAnalizeRes(message.content);
+      }
+    };
+
     if (postData?.postUrl) {
-      getTweetData();
+      getTweetAndAnalize();
     }
   }, [postData?.postUrl]);
 
@@ -44,6 +63,7 @@ const TweetPost = () => {
           placeholder={"Loading..."}
         />
       )}
+      {analizeRes ? <p>{analizeRes}</p> : <p>Loading...</p>}
     </div>
   );
 };
