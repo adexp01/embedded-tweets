@@ -1,8 +1,8 @@
-import { TwitterTweetEmbed } from "react-twitter-embed";
-import { useContext, useEffect, useState } from "react";
-import { FormDataContext } from "../../../context/FormDataContext";
 import axios from "axios";
-
+import { useContext, useEffect, useState } from "react";
+import { TwitterTweetEmbed } from "react-twitter-embed";
+import { FormDataContext } from "../../../context/FormDataContext";
+import { extractTweetIdFromUrl } from "../../../helpers/common";
 interface IEmbedTweetRes {
   url: string;
   author_name: string;
@@ -19,28 +19,40 @@ interface IEmbedTweetRes {
 
 const TweetPost = () => {
   const { postData } = useContext(FormDataContext);
-  const [postDescData, setPostDescData] = useState<IEmbedTweetRes | null>(null);
+  const [analizeRes, setAnalizeRes] = useState(null);
 
-  const getTweetData = async () => {
-    const res = await axios.post(`/api/twitter`, {
+  //move to a service folder
+  const getTweetData = async (): Promise<IEmbedTweetRes> => {
+    const { data } = await axios.post(`/api/twitter`, {
       url: postData?.postUrl,
     });
-    setPostDescData(res.data);
+
+    return data;
+  };
+
+  const analizeTweet = async (tweetBody: IEmbedTweetRes) => {
+    const { data } = await axios.post(`/api/ai`, {
+      markup: tweetBody.html,
+    });
+
+    return data;
   };
 
   useEffect(() => {
+    setAnalizeRes(null);
+
+    const getTweetAndAnalize = async () => {
+      const tweetData = await getTweetData();
+      if (tweetData) {
+        const { message } = await analizeTweet(tweetData);
+        setAnalizeRes(message.content);
+      }
+    };
+
     if (postData?.postUrl) {
-      getTweetData();
+      getTweetAndAnalize();
     }
   }, [postData?.postUrl]);
-
-  function extractTweetIdFromUrl(url: string | undefined) {
-    const regex = /status\/(\d+)/;
-    const match = url?.match(regex);
-    return match ? match[1] : "No result";
-  }
-
-  console.log(postDescData?.html);
 
   return (
     <div>
@@ -51,6 +63,7 @@ const TweetPost = () => {
           placeholder={"Loading..."}
         />
       )}
+      {analizeRes ? <p>{analizeRes}</p> : <p>Loading...</p>}
     </div>
   );
 };
