@@ -9,12 +9,31 @@ import { IPostFormData } from "../../../interfaces/PostFormData.interface";
 const PostForm = () => {
   const { onSubmit } = useContext(FormDataContext);
 
-  const { register, handleSubmit, reset } = useForm<IPostFormData>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    setError,
+  } = useForm<IPostFormData>();
+
+  const URL_PATTERN =
+    /https:\/\/(?:www\.)?x\.com\/[a-zA-Z0-9_]+\/status\/(\d+)(?:\?.*)?$/;
 
   const handleFormSubmit = (data: IPostFormData) => {
+    if (data && !URL_PATTERN.test(data.postUrl)) {
+      setError("postUrl", {
+        type: "pattern",
+        message: "Invalid link",
+      });
+
+      return;
+    }
+
     onSubmit(data);
     reset();
   };
+  console.log(errors);
 
   return (
     <div>
@@ -28,6 +47,7 @@ const PostForm = () => {
         />
         <Button type="submit">Submit</Button>
       </BasicForm>
+      {errors.postUrl && <p style={{ color: "tomato" }}>Invalid URL</p>}
     </div>
   );
 };

@@ -6,7 +6,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { url } = req.body;
-  console.log(req);
 
   const twitterOembedApiUrl = `https://publish.twitter.com/oembed?url=${url}`;
 
