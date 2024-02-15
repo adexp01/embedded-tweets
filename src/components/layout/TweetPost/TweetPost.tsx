@@ -1,18 +1,34 @@
 import { TwitterTweetEmbed } from "react-twitter-embed";
 import { useContext, useEffect, useState } from "react";
 import { FormDataContext } from "../../../context/FormDataContext";
-import { getTweetByUrl } from "../../../services/api/twitter.api";
+import axios from "axios";
+
+interface IEmbedTweetRes {
+  url: string;
+  author_name: string;
+  author_url: string;
+  html: string;
+  width: number;
+  height: number | null;
+  type: string;
+  cache_age: string;
+  provider_name: string;
+  provider_url: string;
+  version: string;
+}
 
 const TweetPost = () => {
   const { postData } = useContext(FormDataContext);
-  const [postDescData, setPostDescData] = useState(null);
+  const [postDescData, setPostDescData] = useState<IEmbedTweetRes | null>(null);
+
+  const getTweetData = async () => {
+    const res = await axios.post(`/api/twitter`, {
+      url: postData?.postUrl,
+    });
+    setPostDescData(res.data);
+  };
 
   useEffect(() => {
-    const getTweetData = async () => {
-      const res = await getTweetByUrl(postData?.postUrl);
-      setPostDescData(res);
-    };
-
     if (postData?.postUrl) {
       getTweetData();
     }
@@ -24,7 +40,7 @@ const TweetPost = () => {
     return match ? match[1] : "No result";
   }
 
-  console.log(JSON.stringify(postDescData));
+  console.log(postDescData?.html);
 
   return (
     <div>
