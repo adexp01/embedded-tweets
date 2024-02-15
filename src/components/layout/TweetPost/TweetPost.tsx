@@ -63,7 +63,7 @@ const TweetPost = () => {
           placeholder={"Loading..."}
         />
       )}
-      {analizeRes ? <p>{analizeRes}</p> : <p>Loading...</p>}
+      {analizeRes ? <p>{analizeRes}</p> : null}
     </div>
   );
 };
